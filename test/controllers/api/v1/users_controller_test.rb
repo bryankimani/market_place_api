@@ -38,4 +38,12 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
     patch api_v1_user_path(@user), params: { user: { email: 'bad_email', password: '123456' } }, as: :json
     assert_response :unprocessable_entity
   end
+
+  test "should destroy user" do
+    assert_difference('User.count', -1) do
+      delete api_v1_user_path(@user), as: :json
+    end
+
+    assert_response :no_content # status code of 204
+  end
 end
